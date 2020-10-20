@@ -1,3 +1,5 @@
+import { SEARCH } from "store/actions/search";
+
 const initalState = {
   total: 0,
   links: {
@@ -10,5 +12,16 @@ const initalState = {
 };
 
 export default (state = initalState, action) => {
-  return state;
+  switch (action.type) {
+    case SEARCH: {
+      const { cities, ...rest } = action.payload;
+      return {
+        ...state,
+        ...rest,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
 };
