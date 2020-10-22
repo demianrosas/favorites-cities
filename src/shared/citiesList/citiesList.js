@@ -1,8 +1,15 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 
 const CitiesList = (props) => {
-  const { cities } = props;
+  const { cities, selectable, onSelectHandler, onUnselectHandler } = props;
+  const handlerOnChangeCheckbox = (e, city) => {
+    if (e.target.checked) {
+      onSelectHandler(city);
+    } else {
+      onUnselectHandler(city);
+    }
+  };
   return (
     <Table striped bordered hover>
       <thead>
@@ -16,7 +23,14 @@ const CitiesList = (props) => {
       <tbody>
         {cities.map((city) => (
           <tr key={city.geonameid}>
-            <td></td>
+            <td>
+              {selectable && (
+                <Form.Check
+                  type="checkbox"
+                  onChange={(e) => handlerOnChangeCheckbox(e, city)}
+                />
+              )}
+            </td>
             <td>{city.country}</td>
             <td>{city.name}</td>
             <td>{city.subcountry}</td>
@@ -25,6 +39,12 @@ const CitiesList = (props) => {
       </tbody>
     </Table>
   );
+};
+
+CitiesList.defaultProps = {
+  selectable: false,
+  onSelectHandler: () => {},
+  onUnselectHandler: () => {},
 };
 
 export default CitiesList;
