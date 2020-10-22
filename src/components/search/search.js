@@ -20,7 +20,7 @@ const Search = () => {
   const searchFn = useCallback(
     debounce((termToSearch) => {
       dispatch(search(termToSearch, 0, 10));
-    }, 2000),
+    }, 500),
     [dispatch]
   );
 
