@@ -1,5 +1,6 @@
 export const ADD_CITY_TO_FAVORITES = "ADD_CITY_TO_FAVORITES";
 export const REMOVE_CITY_FROM_FAVORITES = "REMOVE_CITY_FROM_FAVORITES";
+export const FETCH_FAVORITES_CITIES = "FETCH_FAVORITES_CITIES";
 
 export const addCityToFavorites = (city) => {
   return async (dispatch, getState) => {
@@ -36,6 +37,46 @@ export const removeCityFromFavorites = (city) => {
       },
     });
   };
+};
+
+export const fetchFavoritesCities = () => {
+  return async (dispatch) => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/preferences/cities`
+    );
+
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      throw new Error(responseData.error);
+    }
+
+    const favoritesCities = [];
+
+    for (const geonameid of responseData.data) {
+      const city = await fetchCity(geonameid);
+      favoritesCities.push(city);
+    }
+
+    dispatch({
+      type: FETCH_FAVORITES_CITIES,
+      payload: { favoritesCities },
+    });
+  };
+};
+
+const fetchCity = async (geonameid) => {
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/cities/${geonameid}`
+  );
+
+  const responseData = await response.json();
+
+  if (responseData.error) {
+    throw new Error(responseData.error);
+  }
+
+  return responseData;
 };
 
 const citiesToObject = (cities) => {

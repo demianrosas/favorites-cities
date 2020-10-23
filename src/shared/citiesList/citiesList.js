@@ -2,12 +2,12 @@ import React from "react";
 import { Table, Form } from "react-bootstrap";
 
 const CitiesList = (props) => {
-  const { cities, selectable, onSelectHandler, onUnselectHandler } = props;
+  const { cities, selectable, onAddHandler, onRemoveHandler } = props;
   const handlerOnChangeCheckbox = (e, city) => {
     if (e.target.checked) {
-      onSelectHandler(city);
+      onAddHandler(city);
     } else {
-      onUnselectHandler(city);
+      onRemoveHandler(city);
     }
   };
   return (
@@ -43,8 +43,8 @@ const CitiesList = (props) => {
 
 CitiesList.defaultProps = {
   selectable: false,
-  onSelectHandler: () => {},
-  onUnselectHandler: () => {},
+  onAddHandler: () => {},
+  onRemoveHandler: () => {},
 };
 
 export default CitiesList;

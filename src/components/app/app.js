@@ -9,6 +9,7 @@ import ReduxThunk from "redux-thunk";
 import { rootReducer } from "store/reducers/";
 import InputSearch from "components/search/search";
 import CitiesSearched from "components/citiesSearched/citiesSearched";
+import FavoritesCities from "components/favoritesCities/favoritesCities";
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
+        <FavoritesCities />
         <InputSearch />
         <CitiesSearched />
       </div>

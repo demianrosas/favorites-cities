@@ -34,8 +34,8 @@ const CitiesSearched = () => {
     <Wrapper>
       <CitiesList
         cities={cities}
-        onSelectHandler={handleAddCityToFavorite}
-        onUnselectHandler={handleRemoveCityFromFavorite}
+        onAddHandler={handleAddCityToFavorite}
+        onRemoveHandler={handleRemoveCityFromFavorite}
         selectable
       />
     </Wrapper>

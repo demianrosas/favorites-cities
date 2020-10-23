@@ -2,6 +2,7 @@ import { SEARCH } from "store/actions/search";
 import {
   ADD_CITY_TO_FAVORITES,
   REMOVE_CITY_FROM_FAVORITES,
+  FETCH_FAVORITES_CITIES,
 } from "store/actions/cities";
 
 const initalState = {
@@ -33,6 +34,13 @@ export default (state = initalState, action) => {
       return {
         ...state,
         favoritesCities: newListOfFavoritesCities,
+      };
+    }
+    case FETCH_FAVORITES_CITIES: {
+      const { favoritesCities } = action.payload;
+      return {
+        ...state,
+        favoritesCities,
       };
     }
     default: {
