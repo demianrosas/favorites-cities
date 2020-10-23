@@ -7,20 +7,14 @@ import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
 import { rootReducer } from "store/reducers/";
-import InputSearch from "components/search/search";
-import CitiesSearched from "components/citiesSearched/citiesSearched";
-import FavoritesCities from "components/favoritesCities/favoritesCities";
+import MainContainer from "components/mainContainer/mainContainer";
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <FavoritesCities />
-        <InputSearch />
-        <CitiesSearched />
-      </div>
+      <MainContainer />
     </Provider>
   );
 }
