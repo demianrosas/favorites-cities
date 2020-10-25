@@ -4,4 +4,19 @@
 
 .action-column {
   width: 60px;
+  text-align: center;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cities-list-limit-selector {
+  width: 75px;
+}
+
+.cities-list-pagination {
+  margin: 0;
 }

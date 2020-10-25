@@ -7,6 +7,11 @@ import {
   addCityToFavorites,
   removeCityFromFavorites,
 } from "store/actions/cities";
+import {
+  searchByUrl,
+  setIsSearching,
+  searchWithLimit,
+} from "store/actions/search";
 
 const Wrapper = styled.div`
   padding: 15px;
@@ -15,6 +20,10 @@ const Wrapper = styled.div`
 const CitiesSearched = () => {
   const dispatch = useDispatch();
   const cities = useSelector((state) => state.cities.cities);
+  const {
+    limitPerPage,
+    links: { first, last, next, prev },
+  } = useSelector((state) => state.search);
 
   const handleAddCityToFavorite = useCallback(
     async (city) => {
@@ -30,13 +39,39 @@ const CitiesSearched = () => {
     [dispatch]
   );
 
+  const handlerSearchByUrl = useCallback(
+    async (url) => {
+      dispatch(setIsSearching(true));
+      await dispatch(searchByUrl(url));
+    },
+    [dispatch]
+  );
+
+  const handlerSearchWithLimit = useCallback(
+    async (limit) => {
+      dispatch(setIsSearching(true));
+      await dispatch(searchWithLimit(limit));
+    },
+    [dispatch]
+  );
+
+  const paginationProps = {
+    ...(first ? { onFirst: () => handlerSearchByUrl(first) } : {}),
+    ...(last ? { onLast: () => handlerSearchByUrl(last) } : {}),
+    ...(next ? { onNext: () => handlerSearchByUrl(next) } : {}),
+    ...(prev ? { onPrev: () => handlerSearchByUrl(prev) } : {}),
+    onLimitPerPageChange: handlerSearchWithLimit,
+    limitPerPage,
+  };
+
   return (
     <Wrapper>
       <CitiesList
         cities={cities}
         onAddHandler={handleAddCityToFavorite}
         onRemoveHandler={handleRemoveCityFromFavorite}
-        selectable
+        {...paginationProps}
+        withPagination
       />
     </Wrapper>
   );

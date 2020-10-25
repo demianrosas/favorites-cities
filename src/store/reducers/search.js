@@ -9,6 +9,7 @@ const initalState = {
     last: "",
   },
   filter: "",
+  limitPerPage: 10,
   isSearching: false,
 };
 
