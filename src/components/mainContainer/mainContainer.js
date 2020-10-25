@@ -22,7 +22,7 @@ const TabFavoritesTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-width: 120px;
+  min-width: 130px;
 `;
 
 const SpinnerWrapper = styled.div`
@@ -51,7 +51,9 @@ const MainContainer = () => {
   }, [dispatch]);
 
   const isSearching = useSelector((state) => state.search.isSearching);
-  const favoritesCities = useSelector((state) => state.cities.favoritesCities);
+  const favoritesCitiesIds = useSelector(
+    (state) => state.cities.favoritesCitiesIds
+  );
   const hasError = useSelector((state) => state.ui.error);
 
   if (hasError) {
@@ -86,7 +88,7 @@ const MainContainer = () => {
             <TabFavoritesTitle>
               Mis Favoritas
               <Badge pill variant="primary">
-                {Object.keys(favoritesCities).length}
+                {favoritesCitiesIds.length}
               </Badge>
             </TabFavoritesTitle>
           }
