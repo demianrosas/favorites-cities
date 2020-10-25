@@ -1,7 +1,10 @@
 import React from "react";
 import { Tabs, Tab, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 import styled from "styled-components";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import InputSearch from "components/search/search";
 import CitiesSearched from "components/citiesSearched/citiesSearched";
@@ -41,6 +44,11 @@ const MainContainer = () => {
           <FavoritesCities />
         </Tab>
       </Tabs>
+      <ToastContainer
+        position={toast.POSITION.BOTTOM_RIGHT}
+        className="toastify-container"
+        toastClassName="toastify-toast"
+      />
     </Wrapper>
   );
 };

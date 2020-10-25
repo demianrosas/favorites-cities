@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import {
   fetchFavoritesCities,
@@ -22,6 +23,7 @@ const FavoritesCities = () => {
   const handleRemoveCityFromFavorite = useCallback(
     async (city) => {
       await dispatch(removeCityFromFavorites(city));
+      toast.success(`${city.name} ha sido removida de tus ciudades favoritas`);
     },
     [dispatch]
   );

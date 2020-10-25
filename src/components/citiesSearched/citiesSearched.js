@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import CitiesList from "shared/citiesList/citiesList";
 import {
@@ -28,6 +29,7 @@ const CitiesSearched = () => {
   const handleAddCityToFavorite = useCallback(
     async (city) => {
       await dispatch(addCityToFavorites(city));
+      toast.success(`${city.name} ha sido agregada a tus ciudades favoritas`);
     },
     [dispatch]
   );
@@ -35,6 +37,7 @@ const CitiesSearched = () => {
   const handleRemoveCityFromFavorite = useCallback(
     async (city) => {
       await dispatch(removeCityFromFavorites(city));
+      toast.success(`${city.name} ha sido removida de tus ciudades favoritas`);
     },
     [dispatch]
   );
