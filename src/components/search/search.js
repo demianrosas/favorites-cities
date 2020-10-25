@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
 
-import { search } from "store/actions/search";
+import { search, setIsSearching } from "store/actions/search";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,6 +19,7 @@ const Search = () => {
 
   const searchFn = useCallback(
     debounce((termToSearch) => {
+      dispatch(setIsSearching(true));
       dispatch(search(termToSearch, 0, 10));
     }, 500),
     [dispatch]

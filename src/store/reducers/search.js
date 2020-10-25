@@ -1,4 +1,4 @@
-import { SEARCH } from "store/actions/search";
+import { SEARCH, IS_SEARCHING } from "store/actions/search";
 
 const initalState = {
   total: 0,
@@ -9,6 +9,7 @@ const initalState = {
     last: "",
   },
   filter: "",
+  isSearching: false,
 };
 
 export default (state = initalState, action) => {
@@ -18,6 +19,13 @@ export default (state = initalState, action) => {
       return {
         ...state,
         ...rest,
+        isSearching: false,
+      };
+    }
+    case IS_SEARCHING: {
+      return {
+        ...state,
+        isSearching: action.payload.isSearching,
       };
     }
     default: {

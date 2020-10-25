@@ -1,4 +1,5 @@
 export const SEARCH = "SEARCH";
+export const IS_SEARCHING = "IS_SEARCHING";
 
 export const search = (filter, offset, limit) => {
   return async (dispatch) => {
@@ -21,5 +22,14 @@ export const search = (filter, offset, limit) => {
       type: SEARCH,
       payload: responseData,
     });
+  };
+};
+
+export const setIsSearching = (isSearching) => {
+  return {
+    type: IS_SEARCHING,
+    payload: {
+      isSearching,
+    },
   };
 };
