@@ -1,5 +1,7 @@
 import { hasError } from "store/actions/ui";
 
+let controller = null;
+
 export const SEARCH = "SEARCH";
 export const IS_SEARCHING = "IS_SEARCHING";
 
@@ -45,13 +47,19 @@ export const setIsSearching = (isSearching) => {
 const searchFn = (filter, limit) => {
   return async (dispatch) => {
     try {
+      if (controller) {
+        controller.abort();
+      }
+      controller = new AbortController();
+
       const params = new URLSearchParams({
         filter,
         offset: 0,
         limit,
       }).toString();
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/cities?${params}`
+        `${process.env.REACT_APP_API_URL}/cities?${params}`,
+        { signal: controller.signal }
       );
 
       const responseData = await response.json();
@@ -64,7 +72,9 @@ const searchFn = (filter, limit) => {
         },
       });
     } catch (err) {
-      dispatch(hasError(err));
+      if (err.name !== "AbortError") {
+        dispatch(hasError(err));
+      }
     }
   };
 };
