@@ -4,6 +4,8 @@ import React, { useState, useCallback } from "react";
 import { Table, Button, Spinner, Pagination, Form } from "react-bootstrap";
 import { IoIosClose, IoIosAdd } from "react-icons/io";
 
+import Tooltip from "shared/tooltip/tooltip";
+
 const CitiesList = (props) => {
   const [executingActionOnRow, setExecutingActionOnRow] = useState(-1);
   const {
@@ -54,22 +56,28 @@ const CitiesList = (props) => {
               <tr key={city.geonameid}>
                 <td className="action-column">
                   {!isExecutingMyAction && city.isFavorite && (
-                    <Button
-                      variant="danger"
-                      onClick={() =>
-                        handleActionOnRow(row, city, onRemoveHandler)
-                      }
-                    >
-                      <IoIosClose size={24} />
-                    </Button>
+                    <Tooltip text="Quitar de mis favoritas">
+                      <Button
+                        variant="danger"
+                        onClick={() =>
+                          handleActionOnRow(row, city, onRemoveHandler)
+                        }
+                      >
+                        <IoIosClose size={24} />
+                      </Button>
+                    </Tooltip>
                   )}
                   {!isExecutingMyAction && !city.isFavorite && (
-                    <Button
-                      variant="primary"
-                      onClick={() => handleActionOnRow(row, city, onAddHandler)}
-                    >
-                      <IoIosAdd size={24} />
-                    </Button>
+                    <Tooltip text="Agregar a mis favoritas">
+                      <Button
+                        variant="primary"
+                        onClick={() =>
+                          handleActionOnRow(row, city, onAddHandler)
+                        }
+                      >
+                        <IoIosAdd size={24} />
+                      </Button>
+                    </Tooltip>
                   )}
                   {isExecutingMyAction && (
                     <Spinner animation="border" variant="secondary" />
@@ -97,10 +105,18 @@ const CitiesList = (props) => {
             <option id={100}>100</option>
           </Form.Control>
           <Pagination className="cities-list-pagination">
-            <Pagination.First disabled={!onFirst} onClick={onFirst} />
-            <Pagination.Prev disabled={!onPrev} onClick={onPrev} />
-            <Pagination.Next disabled={!onNext} onClick={onNext} />
-            <Pagination.Last disabled={!onLast} onClick={onLast} />
+            <Tooltip text="Primera">
+              <Pagination.First disabled={!onFirst} onClick={onFirst} />
+            </Tooltip>
+            <Tooltip text="Anterior">
+              <Pagination.Prev disabled={!onPrev} onClick={onPrev} />
+            </Tooltip>
+            <Tooltip text="Siguiente">
+              <Pagination.Next disabled={!onNext} onClick={onNext} />
+            </Tooltip>
+            <Tooltip text="Última">
+              <Pagination.Last disabled={!onLast} onClick={onLast} />
+            </Tooltip>
           </Pagination>
         </div>
       )}
