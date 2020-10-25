@@ -1,3 +1,5 @@
+import { hasError } from "store/actions/ui";
+
 export const SEARCH = "SEARCH";
 export const IS_SEARCHING = "IS_SEARCHING";
 
@@ -10,18 +12,18 @@ export const search = (filter) => {
 
 export const searchByUrl = (url) => {
   return async (dispatch) => {
-    const response = await fetch(url);
+    try {
+      const response = await fetch(url);
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    if (responseData.error) {
-      throw new Error(responseData.error);
+      dispatch({
+        type: SEARCH,
+        payload: responseData,
+      });
+    } catch (err) {
+      dispatch(hasError(err));
     }
-
-    dispatch({
-      type: SEARCH,
-      payload: responseData,
-    });
   };
 };
 
@@ -42,27 +44,27 @@ export const setIsSearching = (isSearching) => {
 
 const searchFn = (filter, limit) => {
   return async (dispatch) => {
-    const params = new URLSearchParams({
-      filter,
-      offset: 0,
-      limit,
-    }).toString();
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/cities?${params}`
-    );
+    try {
+      const params = new URLSearchParams({
+        filter,
+        offset: 0,
+        limit,
+      }).toString();
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/cities?${params}`
+      );
 
-    const responseData = await response.json();
+      const responseData = await response.json();
 
-    if (responseData.error) {
-      throw new Error(responseData.error);
+      dispatch({
+        type: SEARCH,
+        payload: {
+          ...responseData,
+          limitPerPage: limit,
+        },
+      });
+    } catch (err) {
+      dispatch(hasError(err));
     }
-
-    dispatch({
-      type: SEARCH,
-      payload: {
-        ...responseData,
-        limitPerPage: limit,
-      },
-    });
   };
 };

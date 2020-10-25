@@ -10,6 +10,7 @@ import InputSearch from "components/search/search";
 import CitiesSearched from "components/citiesSearched/citiesSearched";
 import FavoritesCities from "components/favoritesCities/favoritesCities";
 import Welcome from "components/welcome/welcome";
+import Error from "components/error/error";
 
 import { fetchFavoritesCities } from "store/actions/cities";
 
@@ -51,42 +52,49 @@ const MainContainer = () => {
 
   const isSearching = useSelector((state) => state.search.isSearching);
   const favoritesCities = useSelector((state) => state.cities.favoritesCities);
+  const hasError = useSelector((state) => state.ui.error);
+
+  if (hasError) {
+    return <Error />;
+  }
+
+  if (!userReadyToStart) {
+    return (
+      <Welcome
+        isLoading={isLoadingConfiguration}
+        onUserReadyToStart={() => setUserReadyToStart(true)}
+      />
+    );
+  }
 
   return (
     <Wrapper>
-      {!userReadyToStart && (
-        <Welcome
-          isLoading={isLoadingConfiguration}
-          onUserReadyToStart={() => setUserReadyToStart(true)}
-        />
-      )}
-      {userReadyToStart && (
-        <Tabs defaultActiveKey="search">
-          <Tab eventKey="search" title="Ciudades">
-            <InputSearch />
-            {isSearching && (
-              <SpinnerWrapper>
-                <Spinner animation="border" variant="secondary" />
-                <span>Buscando...</span>
-              </SpinnerWrapper>
-            )}
-            {!isSearching && <CitiesSearched />}
-          </Tab>
-          <Tab
-            eventKey="favorites"
-            title={
-              <TabFavoritesTitle>
-                Mis Favoritas
-                <Badge pill variant="primary">
-                  {Object.keys(favoritesCities).length}
-                </Badge>
-              </TabFavoritesTitle>
-            }
-          >
-            <FavoritesCities />
-          </Tab>
-        </Tabs>
-      )}
+      <Tabs defaultActiveKey="search">
+        <Tab eventKey="search" title="Ciudades">
+          <InputSearch />
+          {isSearching && (
+            <SpinnerWrapper>
+              <Spinner animation="border" variant="secondary" />
+              <span>Buscando...</span>
+            </SpinnerWrapper>
+          )}
+          {!isSearching && <CitiesSearched />}
+        </Tab>
+        <Tab
+          eventKey="favorites"
+          title={
+            <TabFavoritesTitle>
+              Mis Favoritas
+              <Badge pill variant="primary">
+                {Object.keys(favoritesCities).length}
+              </Badge>
+            </TabFavoritesTitle>
+          }
+        >
+          <FavoritesCities />
+        </Tab>
+      </Tabs>
+
       <ToastContainer
         position={toast.POSITION.BOTTOM_RIGHT}
         className="toastify-container"
