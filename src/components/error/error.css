@@ -1,0 +1,8 @@
+.error-page {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.6)
+    ),
+    url("https://img.freepik.com/free-vector/city-fire-war-destroy-burning-broken-buildings_107791-3257.jpg?size=626&ext=jpg");
+  background-size: contain;
+}

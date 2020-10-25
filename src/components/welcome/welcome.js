@@ -1,10 +1,12 @@
+import "./welcome.css";
+
 import React from "react";
 import { Jumbotron, Button, Spinner } from "react-bootstrap";
 
 const Welcome = (props) => {
   const { isLoading, onUserReadyToStart } = props;
   return (
-    <Jumbotron>
+    <Jumbotron className="welcome">
       <h1>Bienvenido!</h1>
       <h5>
         Esta app te permite buscar cuidades de todo el mundo y podes crear una

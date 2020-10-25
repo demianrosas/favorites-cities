@@ -36,7 +36,7 @@ const CitiesList = (props) => {
 
   return (
     <>
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th className="action-column"></th>

@@ -1,0 +1,8 @@
+.welcome {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.6)
+    ),
+    url("https://www.ie.edu/insights/wp-content/uploads/2017/01/Lean-Cities.jpg");
+  background-size: contain;
+}

@@ -1,9 +1,11 @@
+import "./error.css";
+
 import React from "react";
 import { Jumbotron, Button } from "react-bootstrap";
 
 const Error = () => {
   return (
-    <Jumbotron>
+    <Jumbotron className="error-page">
       <h1>Oops!</h1>
       <h5>
         Lamento informarte que algo ha salido mal y no podemos proseguir. Nos
