@@ -1,4 +1,5 @@
 import mapValues from "lodash.mapvalues";
+import { toast } from "react-toastify";
 
 import { hasError } from "store/actions/ui";
 
@@ -17,9 +18,10 @@ export const addCityToFavorites = (city) => {
 
       favoritesCitiesAsObject[city.geonameid] = true;
 
+      await updateFavoritesCities(favoritesCitiesAsObject);
+
       city.isFavorite = true;
 
-      await updateFavoritesCities(favoritesCitiesAsObject);
       dispatch({
         type: ADD_CITY_TO_FAVORITES,
         payload: {
@@ -27,7 +29,8 @@ export const addCityToFavorites = (city) => {
         },
       });
     } catch (err) {
-      dispatch(hasError(err));
+      toast.error("Algo salió mal. Intenta nuevamente");
+      throw err;
     }
   };
 };
@@ -51,7 +54,8 @@ export const removeCityFromFavorites = (city) => {
         },
       });
     } catch (err) {
-      dispatch(hasError(err));
+      toast.error("Algo salió mal. Intenta nuevamente");
+      throw err;
     }
   };
 };
