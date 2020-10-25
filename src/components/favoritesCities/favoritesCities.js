@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { fetchFavoritesCities } from "store/actions/cities";
+import {
+  fetchFavoritesCities,
+  removeCityFromFavorites,
+} from "store/actions/cities";
 import CitiesList from "shared/citiesList/citiesList";
 
 const Wrapper = styled.div`
@@ -16,11 +19,21 @@ const FavoritesCities = () => {
     dispatch(fetchFavoritesCities());
   }, [dispatch]);
 
+  const handleRemoveCityFromFavorite = useCallback(
+    (city) => {
+      dispatch(removeCityFromFavorites(city));
+    },
+    [dispatch]
+  );
+
   const cities = useSelector((state) => state.cities.favoritesCities);
 
   return (
     <Wrapper>
-      <CitiesList cities={cities} />
+      <CitiesList
+        onRemoveHandler={handleRemoveCityFromFavorite}
+        cities={cities}
+      />
     </Wrapper>
   );
 };

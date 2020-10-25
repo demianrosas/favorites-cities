@@ -1,14 +1,19 @@
+import mapValues from "lodash.mapvalues";
+
 export const ADD_CITY_TO_FAVORITES = "ADD_CITY_TO_FAVORITES";
 export const REMOVE_CITY_FROM_FAVORITES = "REMOVE_CITY_FROM_FAVORITES";
 export const FETCH_FAVORITES_CITIES = "FETCH_FAVORITES_CITIES";
 
 export const addCityToFavorites = (city) => {
   return async (dispatch, getState) => {
-    const favoritesCitiesAsObject = citiesToObject(
-      getState().cities.favoritesCities
+    const favoritesCitiesAsObject = mapValues(
+      getState().cities.favoritesCities,
+      () => true
     );
 
     favoritesCitiesAsObject[city.geonameid] = true;
+
+    city.isFavorite = true;
 
     await updateFavoritesCities(favoritesCitiesAsObject);
     dispatch({
@@ -22,8 +27,9 @@ export const addCityToFavorites = (city) => {
 
 export const removeCityFromFavorites = (city) => {
   return async (dispatch, getState) => {
-    const favoritesCitiesAsObject = citiesToObject(
-      getState().cities.favoritesCities
+    const favoritesCitiesAsObject = mapValues(
+      getState().cities.favoritesCities,
+      () => true
     );
 
     favoritesCitiesAsObject[city.geonameid] = false;
@@ -55,6 +61,7 @@ export const fetchFavoritesCities = () => {
 
     for (const geonameid of responseData.data) {
       const city = await fetchCity(geonameid);
+      city.isFavorite = true;
       favoritesCities.push(city);
     }
 
@@ -77,13 +84,6 @@ const fetchCity = async (geonameid) => {
   }
 
   return responseData;
-};
-
-const citiesToObject = (cities) => {
-  return cities.reduce((favoritesCities, favCity) => {
-    favoritesCities[favCity.geonameid] = true;
-    return favoritesCities;
-  }, {});
 };
 
 const updateFavoritesCities = async (cities) => {

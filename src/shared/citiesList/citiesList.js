@@ -1,41 +1,48 @@
+import "./citiesList.css";
+
 import React from "react";
-import { Table, Form } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
+import { IoIosClose, IoIosAdd } from "react-icons/io";
 
 const CitiesList = (props) => {
-  const { cities, selectable, onAddHandler, onRemoveHandler } = props;
-  const handlerOnChangeCheckbox = (e, city) => {
-    if (e.target.checked) {
-      onAddHandler(city);
-    } else {
-      onRemoveHandler(city);
-    }
-  };
+  const { cities, onAddHandler, onRemoveHandler } = props;
+
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th></th>
+          <th className="action-column"></th>
           <th>País</th>
           <th>Ciudad</th>
           <th>Estado</th>
         </tr>
       </thead>
       <tbody>
-        {cities.map((city) => (
-          <tr key={city.geonameid}>
-            <td>
-              {selectable && (
-                <Form.Check
-                  type="checkbox"
-                  onChange={(e) => handlerOnChangeCheckbox(e, city)}
-                />
-              )}
-            </td>
-            <td>{city.country}</td>
-            <td>{city.name}</td>
-            <td>{city.subcountry}</td>
-          </tr>
-        ))}
+        {Object.keys(cities).map((geonameid) => {
+          const city = cities[geonameid];
+          return (
+            <tr key={city.geonameid}>
+              <td>
+                {city.isFavorite && (
+                  <Button
+                    variant="danger"
+                    onClick={() => onRemoveHandler(city)}
+                  >
+                    <IoIosClose size={24} />
+                  </Button>
+                )}
+                {!city.isFavorite && (
+                  <Button variant="primary" onClick={() => onAddHandler(city)}>
+                    <IoIosAdd size={24} />
+                  </Button>
+                )}
+              </td>
+              <td>{city.country}</td>
+              <td>{city.name}</td>
+              <td>{city.subcountry}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );
