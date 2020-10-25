@@ -20,8 +20,8 @@ const FavoritesCities = () => {
   }, [dispatch]);
 
   const handleRemoveCityFromFavorite = useCallback(
-    (city) => {
-      dispatch(removeCityFromFavorites(city));
+    async (city) => {
+      await dispatch(removeCityFromFavorites(city));
     },
     [dispatch]
   );

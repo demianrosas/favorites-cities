@@ -31,7 +31,7 @@ const MainContainer = () => {
           <InputSearch />
           {isSearching && (
             <SpinnerWrapper>
-              <Spinner animation="border" variant="secondary"></Spinner>
+              <Spinner animation="border" variant="secondary" />
               <span>Buscando...</span>
             </SpinnerWrapper>
           )}

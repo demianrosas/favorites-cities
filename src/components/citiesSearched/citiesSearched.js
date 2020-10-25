@@ -17,15 +17,15 @@ const CitiesSearched = () => {
   const cities = useSelector((state) => state.cities.cities);
 
   const handleAddCityToFavorite = useCallback(
-    (city) => {
-      dispatch(addCityToFavorites(city));
+    async (city) => {
+      await dispatch(addCityToFavorites(city));
     },
     [dispatch]
   );
 
   const handleRemoveCityFromFavorite = useCallback(
-    (city) => {
-      dispatch(removeCityFromFavorites(city));
+    async (city) => {
+      await dispatch(removeCityFromFavorites(city));
     },
     [dispatch]
   );

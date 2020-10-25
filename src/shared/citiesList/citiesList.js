@@ -1,11 +1,23 @@
 import "./citiesList.css";
 
-import React from "react";
-import { Table, Button } from "react-bootstrap";
+import React, { useState, useCallback } from "react";
+import { Table, Button, Spinner } from "react-bootstrap";
 import { IoIosClose, IoIosAdd } from "react-icons/io";
 
 const CitiesList = (props) => {
+  const [executingActionOnRow, setExecutingActionOnRow] = useState(-1);
   const { cities, onAddHandler, onRemoveHandler } = props;
+
+  const handleActionOnRow = useCallback(
+    async (row, city, action) => {
+      setExecutingActionOnRow(row);
+      try {
+        await action(city);
+      } catch (error) {}
+      setExecutingActionOnRow(-1);
+    },
+    [setExecutingActionOnRow]
+  );
 
   return (
     <Table striped bordered hover>
@@ -18,23 +30,33 @@ const CitiesList = (props) => {
         </tr>
       </thead>
       <tbody>
-        {Object.keys(cities).map((geonameid) => {
+        {Object.keys(cities).map((geonameid, row) => {
           const city = cities[geonameid];
+          const isExecutingMyAction = executingActionOnRow === row;
+
           return (
             <tr key={city.geonameid}>
               <td>
-                {city.isFavorite && (
+                {!isExecutingMyAction && city.isFavorite && (
                   <Button
                     variant="danger"
-                    onClick={() => onRemoveHandler(city)}
+                    onClick={() =>
+                      handleActionOnRow(row, city, onRemoveHandler)
+                    }
                   >
                     <IoIosClose size={24} />
                   </Button>
                 )}
-                {!city.isFavorite && (
-                  <Button variant="primary" onClick={() => onAddHandler(city)}>
+                {!isExecutingMyAction && !city.isFavorite && (
+                  <Button
+                    variant="primary"
+                    onClick={() => handleActionOnRow(row, city, onAddHandler)}
+                  >
                     <IoIosAdd size={24} />
                   </Button>
+                )}
+                {isExecutingMyAction && (
+                  <Spinner animation="border" variant="secondary" />
                 )}
               </td>
               <td>{city.country}</td>
