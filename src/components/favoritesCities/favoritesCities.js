@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-import {
-  fetchFavoritesCities,
-  removeCityFromFavorites,
-} from "store/actions/cities";
+import { removeCityFromFavorites } from "store/actions/cities";
 import CitiesList from "shared/citiesList/citiesList";
 
 const Wrapper = styled.div`
@@ -15,10 +12,6 @@ const Wrapper = styled.div`
 
 const FavoritesCities = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchFavoritesCities());
-  }, [dispatch]);
 
   const handleRemoveCityFromFavorite = useCallback(
     async (city) => {
